@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qu-CodeChallenge.API", "Qu-CodeChallenge.API\Qu-CodeChallenge.API.csproj", "{26EA2FFD-7B39-4E46-8FCD-36327BBC4413}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qu-CodeChallenge.DOMAIN", "Qu-CodeChallenge.DOMAIN\Qu-CodeChallenge.DOMAIN.csproj", "{556C413D-2076-40F9-BBB3-C36C3FC1BA03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qu-CodeChallenge.CORE", "Qu-CodeChallenge.CORE\Qu-CodeChallenge.CORE.csproj", "{BC081319-ECFD-4A8E-A628-23D47028A59B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26EA2FFD-7B39-4E46-8FCD-36327BBC4413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26EA2FFD-7B39-4E46-8FCD-36327BBC4413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26EA2FFD-7B39-4E46-8FCD-36327BBC4413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26EA2FFD-7B39-4E46-8FCD-36327BBC4413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{556C413D-2076-40F9-BBB3-C36C3FC1BA03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{556C413D-2076-40F9-BBB3-C36C3FC1BA03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{556C413D-2076-40F9-BBB3-C36C3FC1BA03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{556C413D-2076-40F9-BBB3-C36C3FC1BA03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC081319-ECFD-4A8E-A628-23D47028A59B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC081319-ECFD-4A8E-A628-23D47028A59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC081319-ECFD-4A8E-A628-23D47028A59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC081319-ECFD-4A8E-A628-23D47028A59B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

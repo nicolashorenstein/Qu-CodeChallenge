@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>Qu_CodeChallenge.CORE</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Qu-CodeChallenge.DOMAIN\Qu-CodeChallenge.DOMAIN.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.5.1" />
+      <PackageReference Include="MediatR" Version="11.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="9.0.0-preview.6.24327.7" />
+    </ItemGroup>
+
+</Project>
