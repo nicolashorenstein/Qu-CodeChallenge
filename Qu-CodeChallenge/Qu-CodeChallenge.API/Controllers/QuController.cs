@@ -4,6 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Qu_CodeChallenge.DOMAIN.DTO.Matrix;
 using Qu_CodeChallenge.DOMAIN.Queries;
 using Qu_CodeChallenge.DOMAIN.Responses;
+using Qu_CodeChallenge.DOMAIN.Responses.Matrix;
 
 namespace Qu_CodeChallenge.API.Controllers;
 
@@ -17,13 +18,15 @@ public class QuController : Controller
     }
 
     [HttpPost("api/qu/loadResources")]
-    public async Task<BaseResult> LoadResources([FromBody] LoadResources query)
+    public async Task<MatrixResult> LoadResources([FromBody] LoadResources query)
     {
-        return await _mediator.Send(new LoadMatrixQuery
+        var result =  await _mediator.Send(new LoadMatrixQuery
         {
             Words = query.Words,
             XSize = query.XSize,
             YSize = query.YSize
         });
+
+        return result;
     }
 }

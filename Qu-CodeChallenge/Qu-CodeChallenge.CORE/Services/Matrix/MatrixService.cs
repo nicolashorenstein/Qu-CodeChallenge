@@ -1,3 +1,4 @@
+using System.Text;
 using Qu_CodeChallenge.CORE.Interfaces.Matrix;
 using Qu_CodeChallenge.DOMAIN.Responses.Matrix;
 
@@ -13,12 +14,31 @@ public class MatrixService : IMatrixService
 
         matrix = FillMatrix(matrix, words, rand);
 
-        PrintMatrix(matrix);
+        //PrintMatrix(matrix);
         matrix = ReplaceEmptyValues(xSize,ySize,matrix,rand);
-        result.Matrix = matrix;
+        result.Matrix = ConvertMatrixToListOfStrings(matrix);
         
-        PrintMatrix(result.Matrix);
+        //PrintMatrix(result.Matrix);
         return result;
+    }
+    
+    private List<string> ConvertMatrixToListOfStrings(string[,] matrix)
+    {
+        int rows = matrix.GetLength(0);
+        int cols = matrix.GetLength(1);
+        var list = new List<string>();
+
+        for (int i = 0; i < rows; i++)
+        {
+            var rowString = new StringBuilder();
+            for (int j = 0; j < cols; j++)
+            {
+                rowString.Append(matrix[i, j]);
+            }
+            list.Add(rowString.ToString());
+        }
+
+        return list;
     }
 
     private string[,] InitMatrix(int XSize, int YSize)
@@ -88,7 +108,7 @@ public class MatrixService : IMatrixService
                     {
                         for (int i = 0; i < word.Length; i++)
                         {
-                            matrix[row, col + i] = word[i].ToString();
+                            matrix[row, col + i] = word[i].ToString().ToUpper();
                         }
 
                         placed = true;
@@ -105,7 +125,7 @@ public class MatrixService : IMatrixService
                     {
                         for (int i = 0; i < word.Length; i++)
                         {
-                            matrix[row + i, col] = word[i].ToString();
+                            matrix[row + i, col] = word[i].ToString().ToUpper();
                         }
 
                         placed = true;

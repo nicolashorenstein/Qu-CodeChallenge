@@ -1,7 +1,89 @@
-﻿@page "/"
+﻿@inject  IChallengeService ChallengeService
+@inject IJSRuntime jsRuntime
+@layout BlankLayout
+@page "/"
+@using Qu_CodeChallenge.DOMAIN.Responses.Matrix
+@using Qu_CodeChallenge.Interfaces.Challenge
 
-<PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (showLoading)
+{
+<div class="container-fluid">
+    <div class="text-center">
+        @loadingMessage
+        <br/>
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading data...</span>
+        </div>
+    </div>
+</div>
+}
+else
+{
+    <div class="row">
+        <div class="col-6">
+            <h1>Qu Code Challenge</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <button class="btn btn-primary">Resolve</button>
+        </div>
+    </div>
+    @if (showResults)
+    {
 
-Welcome to your new app.
+    }
+    <div class="row">
+        <table class="table table-bordered">
+            <tbody>
+            @for (int i = 0; i < model.Matrix.Count; i++)
+            {
+                var arrayOfItems = model.Matrix[i].ToArray();
+                <tr class="custom-width">
+                @for (int j = 0; j < arrayOfItems.Length; j++)
+                {
+                    if (char.IsUpper(arrayOfItems[j]))
+                    {
+                        <td class="custom-width" style="background-color: #20c997"><b class="red-text">@arrayOfItems[j]</b></td>
+                    }
+                    else
+                    {
+                        <td class="custom-width">@arrayOfItems[j]</td>
+                    }
+                 }
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+<PageTitle>Qu Code Challenge</PageTitle>
+
+@code{
+    private bool showLoading = true;
+    private bool showResults = false;
+    private string loadingMessage = "";
+    private MatrixResult model;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        loadingMessage = "Getting Code Challenge...";
+        model = new MatrixResult();
+        await ObtenerConexiones();
+    }
+    
+    private async Task ObtenerConexiones()
+    {
+        var apiResponse = await ChallengeService.StartChallenge();
+        if (apiResponse.Ok)
+        {
+            showLoading = false;
+            model = apiResponse;
+        }
+        else
+        {
+            await jsRuntime.InvokeVoidAsync("showError", apiResponse.Error);
+        }
+    }
+}

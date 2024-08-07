@@ -2,5 +2,5 @@ namespace Qu_CodeChallenge.DOMAIN.Responses.Matrix;
 
 public class MatrixResult : BaseResult
 {
-    public string[,] Matrix { get; set; }
+    public List<string> Matrix { get; set; }
 }

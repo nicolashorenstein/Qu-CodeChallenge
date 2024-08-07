@@ -31,11 +31,6 @@ public class ChallengeService : IChallengeService
     
     public async Task<MatrixResult> StartChallenge()
     {
-        throw new NotImplementedException();
-    }
-    
-    public async Task<MatrixResult> GetConsumosDiario(string token, int idConexion, string? mes, string? anio)
-    {
         var resultado = new MatrixResult();
         try
         {
@@ -47,6 +42,40 @@ public class ChallengeService : IChallengeService
                 "SNOW",
                 "CHALLENGE"
             };
+            var query = new LoadResources
+            {
+                Words = words,
+                XSize = 64,
+                YSize = 64
+            };
+
+            var contenido = await _apiCalls.CallApi(urlApi, "POST",null, query);
+            var options = new JsonSerializerOptions() {PropertyNameCaseInsensitive = true};
+            resultado = JsonSerializer.Deserialize<MatrixResult>(contenido.ToString(), options);
+               
+            return resultado;
+        }
+        catch (ApiCallException ex)
+        {
+            resultado.SetError(ex.Message, ex._statusCode);
+            return resultado;
+        }
+        catch (Exception ex)
+        {
+            resultado.SetError("Error al obtener consumos mensuales", HttpStatusCode.InternalServerError);
+            return resultado;
+        }
+    }
+    
+    public async Task<MatrixResult> GetConsumosDiario(string token, int idConexion, string? mes, string? anio)
+    {
+        var resultado = new MatrixResult();
+        try
+        {
+            var urlApi = _config["ApiURL"] + "api/qu/loadResources";
+
+            var words = (_config["SampleWords"].Split(',')).ToList();
+           
             var query = new LoadResources
             {
                 Words = words,

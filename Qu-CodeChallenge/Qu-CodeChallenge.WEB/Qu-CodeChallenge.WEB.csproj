@@ -13,10 +13,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\customJS\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Qu-CodeChallenge.DOMAIN\Qu-CodeChallenge.DOMAIN.csproj" />
     </ItemGroup>
 

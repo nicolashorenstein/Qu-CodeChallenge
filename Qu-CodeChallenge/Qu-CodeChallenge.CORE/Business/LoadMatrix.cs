@@ -46,9 +46,9 @@ public class LoadMatrix
                 return result;
             }
 
-            var matrix = _matrixService.LoadMatrixInMemory(request.XSize, request.YSize, request.Words);
+            var matrix = await _matrixService.LoadMatrixInMemory(request.XSize, request.YSize, request.Words);
             
-            await _memoryCache.Set("matrixLoaded", matrix);
+             //_memoryCache.Set("matrixLoaded", matrix);
             
             // // var myObject = new MyClass { Id = 1, Name = "Test Object" };
             //  var aux = "yeahhh"; 
@@ -57,8 +57,8 @@ public class LoadMatrix
             //  var cachedObject = _memoryCache.Get<string>("sampleKey");
             //  
             //  return Ok(cachedObject);
-            
-            
+
+            result = matrix;
             return result;
         }
     }
