@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qu-CodeChallenge.DOMAIN", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qu-CodeChallenge.CORE", "Qu-CodeChallenge.CORE\Qu-CodeChallenge.CORE.csproj", "{BC081319-ECFD-4A8E-A628-23D47028A59B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qu-CodeChallenge.WEB", "Qu-CodeChallenge.WEB\Qu-CodeChallenge.WEB.csproj", "{A220D51B-86DF-427F-AD61-B4D1829DE4E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{BC081319-ECFD-4A8E-A628-23D47028A59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC081319-ECFD-4A8E-A628-23D47028A59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC081319-ECFD-4A8E-A628-23D47028A59B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A220D51B-86DF-427F-AD61-B4D1829DE4E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A220D51B-86DF-427F-AD61-B4D1829DE4E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A220D51B-86DF-427F-AD61-B4D1829DE4E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A220D51B-86DF-427F-AD61-B4D1829DE4E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
