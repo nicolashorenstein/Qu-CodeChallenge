@@ -35,18 +35,13 @@ public class ChallengeService : IChallengeService
         try
         {
             var urlApi = _config["ApiURL"] + "api/qu/loadResources";
-            var words = new List<string>
-            {
-                "COLD",
-                "CHILL",
-                "SNOW",
-                "CHALLENGE"
-            };
+            var words = (_config["SampleWords"].Split(",")).ToList();
+          
             var query = new LoadResources
             {
                 Words = words,
-                XSize = 64,
-                YSize = 64
+                XSize = int.Parse(_config["XSize"]),
+                YSize = int.Parse(_config["YSize"])
             };
 
             var contenido = await _apiCalls.CallApi(urlApi, "POST",null, query);

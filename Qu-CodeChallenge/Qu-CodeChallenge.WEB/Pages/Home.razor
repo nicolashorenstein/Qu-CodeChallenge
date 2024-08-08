@@ -8,15 +8,15 @@
 
 @if (showLoading)
 {
-<div class="container-fluid">
-    <div class="text-center">
-        @loadingMessage
-        <br/>
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading data...</span>
+    <div class="container-fluid">
+        <div class="text-center">
+            @loadingMessage
+            <br/>
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading data...</span>
+            </div>
         </div>
     </div>
-</div>
 }
 else
 {
@@ -26,44 +26,54 @@ else
         </div>
     </div>
     <div class="row">
-        <div class="col-3">
+        <div class="col-6">
             <button class="btn btn-primary" @onclick="ResolveChallenge">Resolve</button>
-           
         </div>
     </div>
     @if (showResults)
     {
-        <div class="row">
-            <ol>
-                @foreach (var result in modelResult.Words)
-                {
-                    <li>@result.Key: @result.Value </li>    
-                }
-            </ol>   
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <ul class="list-group">
+                    @for (var i = 0; i < modelResult.Words.Count; i++)
+                    {
+                        <li class="list-group-item">@(i+1)° -  @modelResult.Words.ElementAt(i).Key: <b>@modelResult.Words.ElementAt(i).Value</b> </li>
+                    }
+                    </ul>
+                </div>
+            </div>
         </div>
     }
-    <div class="row">
-        <table class="table table-bordered">
-            <tbody>
-            @for (int i = 0; i < model.Matrix.Count; i++)
-            {
-                var arrayOfItems = model.Matrix[i].ToArray();
-                <tr class="custom-width">
-                @for (int j = 0; j < arrayOfItems.Length; j++)
-                {
-                    if (char.IsUpper(arrayOfItems[j]))
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <table class="table table-bordered">
+                    <tbody>
+                    @for (int i = 0; i < model.Matrix.Count; i++)
                     {
-                        <td class="custom-width" style="background-color: #20c997"><b class="red-text">@arrayOfItems[j]</b></td>
+                        var arrayOfItems = model.Matrix[i].ToArray();
+                        <tr class="custom-width">
+                            @for (int j = 0; j < arrayOfItems.Length; j++)
+                            {
+                                if (char.IsUpper(arrayOfItems[j]))
+                                {
+                                    <td class="custom-width" style="background-color: #20c997">
+                                        <b class="red-text">@arrayOfItems[j]</b>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="custom-width">@arrayOfItems[j]</td>
+                                }
+                            }
+                        </tr>
                     }
-                    else
-                    {
-                        <td class="custom-width">@arrayOfItems[j]</td>
-                    }
-                 }
-                </tr>
-            }
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 }
 <PageTitle>Qu Code Challenge</PageTitle>
@@ -74,7 +84,7 @@ else
     private string loadingMessage = "";
     private MatrixResult model;
     private WordFinderResult modelResult;
-    
+
     protected override async Task OnInitializedAsync()
     {
         loadingMessage = "Getting Code Challenge...";
@@ -82,9 +92,10 @@ else
         modelResult = new WordFinderResult();
         await StartChallenge();
     }
-    
+
     private async Task StartChallenge()
     {
+        showLoading = true;
         var apiResponse = await ChallengeService.StartChallenge();
         if (apiResponse.Ok)
         {
@@ -96,12 +107,12 @@ else
             await jsRuntime.InvokeVoidAsync("showError", apiResponse.Error);
         }
     }
-    
+
     private async Task ResolveChallenge()
     {
         loadingMessage = "Resolving challenge";
         showLoading = true;
-        
+
         var apiResponse = await ChallengeService.ResolveChallenge(model.Matrix);
         if (apiResponse.Ok)
         {
@@ -114,4 +125,6 @@ else
             await jsRuntime.InvokeVoidAsync("showError", apiResponse.Error);
         }
     }
+
 }
+

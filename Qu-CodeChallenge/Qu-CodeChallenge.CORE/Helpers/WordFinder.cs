@@ -6,7 +6,6 @@ namespace Qu_CodeChallenge.CORE.Helpers;
 public class WordFinder : IWordFinder
 {
     private List<string> _matrix;
-    private static int[,] directions = { { 0, 1 }, { 1, 0 } }; // Right, Down
     private int rows, cols;
     
     public WordFinder(List<string> matrix)
@@ -44,7 +43,11 @@ public class WordFinder : IWordFinder
             }
         }
 
-        result.Words = wordCount;
+        var top10Dictionary = wordCount.OrderByDescending(c => c.Value)
+            .Take(10)
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
+
+        result.Words = top10Dictionary;
         return result;
     }
     
