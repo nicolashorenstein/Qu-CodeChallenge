@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using Qu_CodeChallenge.CORE.Business;
 using Qu_CodeChallenge.DOMAIN.DTO.Matrix;
 using Qu_CodeChallenge.DOMAIN.Queries;
 using Qu_CodeChallenge.DOMAIN.Responses;
@@ -25,6 +26,18 @@ public class QuController : Controller
             Words = query.Words,
             XSize = query.XSize,
             YSize = query.YSize
+        });
+
+        return result;
+    }
+    
+    [HttpPost("api/qu/resolve")]
+    public async Task<WordFinderResult> Resolve([FromBody] ResolveChallenge query)
+    {
+        var result =  await _mediator.Send(new WordsFinderQuery
+        {
+            Words = query.Words,
+            Matrix = query.Matrix
         });
 
         return result;

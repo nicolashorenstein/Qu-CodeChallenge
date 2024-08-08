@@ -66,7 +66,40 @@ public class ChallengeService : IChallengeService
             return resultado;
         }
     }
-    
+
+    public async Task<WordFinderResult> ResolveChallenge(List<string> matrix)
+    {
+        var resultado = new WordFinderResult();
+        try
+        {
+            var urlApi = _config["ApiURL"] + "api/qu/resolve";
+
+            var words = (_config["SampleWords"].Split(',')).ToList();
+           
+            var query = new ResolveChallenge()
+            {
+                Words = words,
+                Matrix = matrix 
+            };
+            var headers = new Dictionary<string, string>();
+            var contenido = await _apiCalls.CallApi(urlApi, "POST", headers, query);
+            var options = new JsonSerializerOptions() {PropertyNameCaseInsensitive = true};
+            resultado = JsonSerializer.Deserialize<WordFinderResult>(contenido.ToString(), options);
+               
+            return resultado;
+        }
+        catch (ApiCallException ex)
+        {
+            resultado.SetError(ex.Message, ex._statusCode);
+            return resultado;
+        }
+        catch (Exception ex)
+        {
+            resultado.SetError("Error when trying to resolve the challenge", HttpStatusCode.InternalServerError);
+            return resultado;
+        }
+    }
+
     public async Task<MatrixResult> GetConsumosDiario(string token, int idConexion, string? mes, string? anio)
     {
         var resultado = new MatrixResult();
@@ -96,7 +129,7 @@ public class ChallengeService : IChallengeService
         }
         catch (Exception ex)
         {
-            resultado.SetError("Error al obtener consumos mensuales", HttpStatusCode.InternalServerError);
+            resultado.SetError("Error when trying to init the challenge", HttpStatusCode.InternalServerError);
             return resultado;
         }
     }

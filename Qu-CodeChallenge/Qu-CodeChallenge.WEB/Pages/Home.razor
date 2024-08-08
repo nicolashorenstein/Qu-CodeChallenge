@@ -27,12 +27,20 @@ else
     </div>
     <div class="row">
         <div class="col-3">
-            <button class="btn btn-primary">Resolve</button>
+            <button class="btn btn-primary" @onclick="ResolveChallenge">Resolve</button>
+           
         </div>
     </div>
     @if (showResults)
     {
-
+        <div class="row">
+            <ol>
+                @foreach (var result in modelResult.Words)
+                {
+                    <li>@result.Key: @result.Value </li>    
+                }
+            </ol>   
+        </div>
     }
     <div class="row">
         <table class="table table-bordered">
@@ -65,21 +73,41 @@ else
     private bool showResults = false;
     private string loadingMessage = "";
     private MatrixResult model;
+    private WordFinderResult modelResult;
     
     protected override async Task OnInitializedAsync()
     {
         loadingMessage = "Getting Code Challenge...";
         model = new MatrixResult();
-        await ObtenerConexiones();
+        modelResult = new WordFinderResult();
+        await StartChallenge();
     }
     
-    private async Task ObtenerConexiones()
+    private async Task StartChallenge()
     {
         var apiResponse = await ChallengeService.StartChallenge();
         if (apiResponse.Ok)
         {
             showLoading = false;
             model = apiResponse;
+        }
+        else
+        {
+            await jsRuntime.InvokeVoidAsync("showError", apiResponse.Error);
+        }
+    }
+    
+    private async Task ResolveChallenge()
+    {
+        loadingMessage = "Resolving challenge";
+        showLoading = true;
+        
+        var apiResponse = await ChallengeService.ResolveChallenge(model.Matrix);
+        if (apiResponse.Ok)
+        {
+            showLoading = false;
+            showResults = true;
+            modelResult = apiResponse;
         }
         else
         {
