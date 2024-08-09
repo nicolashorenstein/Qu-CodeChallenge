@@ -36,10 +36,10 @@ else
             <div class="card-body">
                 <div class="row">
                     <ul class="list-group">
-                    @for (var i = 0; i < modelResult.Words.Count; i++)
-                    {
-                        <li class="list-group-item">@(i+1)° -  @modelResult.Words.ElementAt(i).Key: <b>@modelResult.Words.ElementAt(i).Value</b> </li>
-                    }
+                        @for (var i = 0; i < modelResult.Words.Count; i++)
+                        {
+                            <li class="list-group-item">@(i + 1)° - @modelResult.Words.ElementAt(i).Key: <b>@modelResult.Words.ElementAt(i).Value</b> </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -51,11 +51,11 @@ else
             <div class="row">
                 <table class="table table-bordered">
                     <tbody>
-                    @for (int i = 0; i < model.Matrix.Count; i++)
+                    @for (var i = 0; i < model.Matrix.Count; i++)
                     {
                         var arrayOfItems = model.Matrix[i].ToArray();
                         <tr class="custom-width">
-                            @for (int j = 0; j < arrayOfItems.Length; j++)
+                            @for (var j = 0; j < arrayOfItems.Length; j++)
                             {
                                 if (char.IsUpper(arrayOfItems[j]))
                                 {
@@ -80,7 +80,7 @@ else
 
 @code{
     private bool showLoading = true;
-    private bool showResults = false;
+    private bool showResults;
     private string loadingMessage = "";
     private MatrixResult model;
     private WordFinderResult modelResult;
@@ -127,4 +127,3 @@ else
     }
 
 }
-

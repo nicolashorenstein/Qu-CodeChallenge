@@ -12,13 +12,6 @@ namespace Coovilros.Medidores.Web.Servicios.Challenge;
 
 public class ChallengeService : IChallengeService
 {
-    private IConfiguration _config { get; set; }
-    private ILocalStorageService _localStorage { get; set; }
-    private HttpClient _httpClient { get; set; }
-    private NavigationManager _navManager { get; set; }
-    private IApiCallGeneric _apiCalls { get; set; }
-    
-    
     public ChallengeService(IConfiguration config, HttpClient httpClient, ILocalStorageService localStorage,
         NavigationManager navManager, IApiCallGeneric apiCalls)
     {
@@ -28,15 +21,21 @@ public class ChallengeService : IChallengeService
         _navManager = navManager;
         _apiCalls = apiCalls;
     }
-    
+
+    private IConfiguration _config { get; }
+    private ILocalStorageService _localStorage { get; set; }
+    private HttpClient _httpClient { get; set; }
+    private NavigationManager _navManager { get; set; }
+    private IApiCallGeneric _apiCalls { get; }
+
     public async Task<MatrixResult> StartChallenge()
     {
         var resultado = new MatrixResult();
         try
         {
             var urlApi = _config["ApiURL"] + "api/qu/loadResources";
-            var words = (_config["SampleWords"].Split(",")).ToList();
-          
+            var words = _config["SampleWords"].Split(",").ToList();
+
             var query = new LoadResources
             {
                 Words = words,
@@ -44,10 +43,10 @@ public class ChallengeService : IChallengeService
                 YSize = int.Parse(_config["YSize"])
             };
 
-            var contenido = await _apiCalls.CallApi(urlApi, "POST",null, query);
-            var options = new JsonSerializerOptions() {PropertyNameCaseInsensitive = true};
+            var contenido = await _apiCalls.CallApi(urlApi, "POST", null, query);
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             resultado = JsonSerializer.Deserialize<MatrixResult>(contenido.ToString(), options);
-               
+
             return resultado;
         }
         catch (ApiCallException ex)
@@ -69,18 +68,18 @@ public class ChallengeService : IChallengeService
         {
             var urlApi = _config["ApiURL"] + "api/qu/resolve";
 
-            var words = (_config["SampleWords"].Split(',')).ToList();
-           
-            var query = new ResolveChallenge()
+            var words = _config["SampleWords"].Split(',').ToList();
+
+            var query = new ResolveChallenge
             {
                 Words = words,
-                Matrix = matrix 
+                Matrix = matrix
             };
             var headers = new Dictionary<string, string>();
             var contenido = await _apiCalls.CallApi(urlApi, "POST", headers, query);
-            var options = new JsonSerializerOptions() {PropertyNameCaseInsensitive = true};
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             resultado = JsonSerializer.Deserialize<WordFinderResult>(contenido.ToString(), options);
-               
+
             return resultado;
         }
         catch (ApiCallException ex)
@@ -102,8 +101,8 @@ public class ChallengeService : IChallengeService
         {
             var urlApi = _config["ApiURL"] + "api/qu/loadResources";
 
-            var words = (_config["SampleWords"].Split(',')).ToList();
-           
+            var words = _config["SampleWords"].Split(',').ToList();
+
             var query = new LoadResources
             {
                 Words = words,
@@ -112,9 +111,9 @@ public class ChallengeService : IChallengeService
             };
             var headers = new Dictionary<string, string>();
             var contenido = await _apiCalls.CallApi(urlApi, "POST", headers, query);
-            var options = new JsonSerializerOptions() {PropertyNameCaseInsensitive = true};
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             resultado = JsonSerializer.Deserialize<MatrixResult>(contenido.ToString(), options);
-               
+
             return resultado;
         }
         catch (ApiCallException ex)

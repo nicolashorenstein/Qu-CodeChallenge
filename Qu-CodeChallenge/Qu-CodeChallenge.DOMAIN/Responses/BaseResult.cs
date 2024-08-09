@@ -11,7 +11,7 @@ public class BaseResult
     public void SetError()
     {
         Ok = false;
-        Error = "Error procesando la solicitud";
+        Error = "Error";
         StatusCode = HttpStatusCode.InternalServerError;
     }
 

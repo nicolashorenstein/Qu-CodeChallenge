@@ -19,25 +19,25 @@ public class LoadMatrix
             RuleFor(query => query.Words).NotEmpty();
         }
     }
-    
+
     public class Handler : IRequestHandler<LoadMatrixQuery, MatrixResult>
     {
-        private readonly IValidator<LoadMatrixQuery> _validator;
-        private readonly IMemoryCache _memoryCache;
         private readonly IMatrixService _matrixService;
-        
+        private readonly IMemoryCache _memoryCache;
+        private readonly IValidator<LoadMatrixQuery> _validator;
+
         public Handler(IValidator<LoadMatrixQuery> validator, IMemoryCache memoryCache, IMatrixService matrixService)
         {
             _validator = validator;
             _memoryCache = memoryCache;
             _matrixService = matrixService;
         }
-        
+
         public async Task<MatrixResult> Handle(LoadMatrixQuery request,
             CancellationToken cancellationToken)
         {
             var result = new MatrixResult();
-           
+
             var validation = await _validator.ValidateAsync(request);
             if (!validation.IsValid)
             {
@@ -47,16 +47,6 @@ public class LoadMatrix
             }
 
             var matrix = await _matrixService.LoadMatrixInMemory(request.XSize, request.YSize, request.Words);
-            
-             //_memoryCache.Set("matrixLoaded", matrix);
-            
-            // // var myObject = new MyClass { Id = 1, Name = "Test Object" };
-            //  var aux = "yeahhh"; 
-            // _memoryCache.Set("sampleKey", aux);
-            //
-            //  var cachedObject = _memoryCache.Get<string>("sampleKey");
-            //  
-            //  return Ok(cachedObject);
 
             result = matrix;
             return result;

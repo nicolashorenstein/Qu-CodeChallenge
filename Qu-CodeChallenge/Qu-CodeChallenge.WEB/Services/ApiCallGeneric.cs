@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Qu_CodeChallenge.Exceptions;
@@ -10,8 +11,6 @@ namespace Coovilros.Medidores.Web.Servicios;
 public class ApiCallGeneric : IApiCallGeneric
 {
     private readonly HttpClient _httpClient;
-    private ILocalStorageService _localStorage { get; set; }
-    private NavigationManager _navManager { get; set; }
 
     public ApiCallGeneric(HttpClient httpClient, ILocalStorageService localStorage, NavigationManager navManager)
     {
@@ -20,6 +19,9 @@ public class ApiCallGeneric : IApiCallGeneric
         _navManager = navManager;
     }
 
+    private ILocalStorageService _localStorage { get; }
+    private NavigationManager _navManager { get; }
+
     public async Task<object> CallApi(string url, string method, Dictionary<string, string>? headers, object? comando)
     {
         try
@@ -27,12 +29,8 @@ public class ApiCallGeneric : IApiCallGeneric
             _httpClient.DefaultRequestHeaders.Clear();
             var urlApi = url;
             if (headers != null)
-            {
-                foreach (KeyValuePair<string, string> entry in headers)
-                {
+                foreach (var entry in headers)
                     _httpClient.DefaultRequestHeaders.Add(entry.Key, entry.Value);
-                }
-            }
 
             var response = new HttpResponseMessage();
 
@@ -42,12 +40,12 @@ public class ApiCallGeneric : IApiCallGeneric
                     response = await _httpClient.GetAsync(urlApi);
                     break;
                 case "POST":
-                    var comandoPOSTJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(comando),
+                    var comandoPOSTJson = new StringContent(JsonSerializer.Serialize(comando),
                         Encoding.UTF8, "application/json");
                     response = await _httpClient.PostAsync(urlApi, comandoPOSTJson);
                     break;
                 case "PUT":
-                    var comandoPUTJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(comando),
+                    var comandoPUTJson = new StringContent(JsonSerializer.Serialize(comando),
                         Encoding.UTF8, "application/json");
                     response = await _httpClient.PutAsync(urlApi, comandoPUTJson);
                     break;

@@ -20,7 +20,7 @@ function loadJs(sourceUrl) {
     document.body.appendChild(tag);
 }
 
-function deleteScript(id){
+function deleteScript(id) {
     const scriptElem = document.getElementById(id);
     scriptElem.remove()
 }

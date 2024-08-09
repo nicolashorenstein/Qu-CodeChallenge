@@ -18,23 +18,23 @@ public class WordFinder
             RuleFor(query => query.Words).NotEmpty();
         }
     }
-    
+
     public class Handler : IRequestHandler<WordsFinderQuery, WordFinderResult>
     {
-        private readonly IValidator<WordsFinderQuery> _validator;
         private readonly IMemoryCache _memoryCache;
-        
-        
+        private readonly IValidator<WordsFinderQuery> _validator;
+
+
         public Handler(IValidator<WordsFinderQuery> validator, IMemoryCache memoryCache, IMatrixService matrixService)
         {
             _validator = validator;
         }
-        
+
         public async Task<WordFinderResult> Handle(WordsFinderQuery request,
             CancellationToken cancellationToken)
         {
             var result = new WordFinderResult();
-           
+
             var validation = await _validator.ValidateAsync(request);
             if (!validation.IsValid)
             {
@@ -43,9 +43,9 @@ public class WordFinder
                 return result;
             }
 
-            var helper = new CORE.Helpers.WordFinder(request.Matrix);
+            var helper = new Helpers.WordFinder(request.Matrix);
             result = await helper.Find(request.Words);
-            
+
             return result;
         }
     }

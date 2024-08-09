@@ -2,7 +2,7 @@ namespace Qu_CodeChallenge.CORE.Helpers;
 
 public class Trie
 {
-    private TrieNode root;
+    private readonly TrieNode root;
 
     public Trie()
     {
@@ -19,6 +19,7 @@ public class Trie
 
             node = node.Children[ch];
         }
+
         node.IsEndOfWord = true;
     }
 
