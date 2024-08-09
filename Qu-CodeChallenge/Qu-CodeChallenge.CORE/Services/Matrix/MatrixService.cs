@@ -60,6 +60,7 @@ public class MatrixService : IMatrixService
 
     private string[,] FillMatrix(string[,] matrix, List<string> words, Random rand)
     {
+        words = words.Distinct().ToList();
         foreach (var word in words)
         {
             var occurrences = rand.Next(1, 6); // Random number of occurrences between 1 and 5

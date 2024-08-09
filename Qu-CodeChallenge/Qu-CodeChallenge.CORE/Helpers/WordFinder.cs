@@ -24,6 +24,7 @@ public class WordFinder : IWordFinder
         rows = matrix.GetLength(0);
         cols = matrix.GetLength(1);
 
+        wordstream = wordstream.Distinct().ToList();
         var trie = new Trie();
         foreach (var word in wordstream)
         {
